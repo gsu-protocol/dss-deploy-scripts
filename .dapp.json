@@ -572,6 +572,36 @@
         "rev": "67067a1f3da63233a6e3b2c2f0148f95d046dd7e",
         "url": "https://github.com/makerdao/vote-proxy"
       }
+    },
+    "dss_3ab6317": {
+      "deps": {
+        "ds-test": "ds-test_0a5da56",
+        "ds-token": "ds-token_a5e709b",
+        "ds-value": "ds-value_4049ecd"
+      },
+      "name": "dss",
+      "repo": {
+        "name": "dss-3ab6317",
+        "ref": "HEAD",
+        "rev": "3ab6317771f74d45d8185e2323127daa8452f204",
+        "url": "https://github.com/gsu-protocol/dss"
+      }
+    },
+    "dss-deploy_b23450b": {
+      "deps": {
+        "ds-auth": "ds-auth_a51e7ca",
+        "ds-pause": "ds-pause_5e798dd",
+        "ds-test": "ds-test_0a5da56",
+        "dss": "dss_3ab6317",
+        "esm": "esm_225ddf2"
+      },
+      "name": "dss-deploy",
+      "repo": {
+        "name": "dss-deploy-b23450b",
+        "ref": "HEAD",
+        "rev": "b23450b75247b6cb695f4fa182df511b567464fc",
+        "url": "https://github.com/gsu-protocol/dss-deploy"
+      }
     }
   },
   "this": {
@@ -587,7 +617,7 @@
       "dss-auto-line": "dss-auto-line_bff7e6c",
       "dss-cdp-manager": "dss-cdp-manager_306132d",
       "dss-chain-log": "dss-chain-log_90cf9c0",
-      "dss-deploy": "dss-deploy_b2c1c5a",
+      "dss-deploy": "dss-deploy_b23450b",
       "dss-deploy-1_2": "dss-deploy_45985a9",
       "dss-deploy-pause-proxy-actions": "dss-deploy-pause-proxy-actions_9344383",
       "dss-flash": "dss-flash_4d4b984",
