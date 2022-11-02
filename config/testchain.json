@@ -1,7 +1,7 @@
 {
-  "description": "Testchain Deployment",
-  "omniaFromAddr": "0xdc9A20F5a46AFE0802b361076BeFC51f787B2e58",
-  "omniaAmount": "1",
+  "description": "Testchain deployment",
+  "omniaFromAddr": "0x04a8c85778aCCacE0B2B053B246eAC7062F03615",
+  "omniaAmount": "10000",
   "pauseDelay": "60",
   "vat_line": "5000000",
   "vow_wait": "561600",
@@ -12,7 +12,7 @@
   "cat_box": "20000000",
   "dog_hole": "100000000",
   "jug_base": "0",
-  "pot_dsr": "0.01",
+  "pot_dsr": "0.00",
   "cure_wait": "0",
   "end_wait": "262800",
   "esm_min": "100000",
@@ -38,9 +38,13 @@
         "extraParams": []
       },
       "pipDeploy": {
-        "osmDelay": "0",
-        "type": "value",
-        "price": "1000"
+        "osmDelay": "600",
+        "type": "median",
+        "signers": [
+          "0x9b996C0EC8f19b4Cc9D8e00EdB79Bf2456d7EA03",
+          "0xd8F05998F94347330d8e5Bc2C5488428f50591a3",
+          "0xD33bf7c2983f51dBC4abbF21850fA76d652329C8"
+        ]
       },
       "ilks": {
         "A": {
@@ -131,9 +135,13 @@
         "extraParams": []
       },
       "pipDeploy": {
-        "osmDelay": "0",
-        "type": "value",
-        "price": "10000"
+        "osmDelay": "600",
+        "type": "median",
+        "signers": [
+          "0x9b996C0EC8f19b4Cc9D8e00EdB79Bf2456d7EA03",
+          "0xd8F05998F94347330d8e5Bc2C5488428f50591a3",
+          "0xD33bf7c2983f51dBC4abbF21850fA76d652329C8"
+        ]
       },
       "ilks": {
         "A": {
