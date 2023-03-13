@@ -262,22 +262,6 @@
         "url": "https://github.com/makerdao/dss-deploy"
       }
     },
-    "dss-deploy_b2c1c5a": {
-      "deps": {
-        "ds-auth": "ds-auth_a51e7ca",
-        "ds-pause": "ds-pause_5e798dd",
-        "ds-test": "ds-test_0a5da56",
-        "dss": "dss_fa4f663",
-        "esm": "esm_225ddf2"
-      },
-      "name": "dss-deploy",
-      "repo": {
-        "name": "dss-deploy-b2c1c5a",
-        "ref": "HEAD",
-        "rev": "b2c1c5ac107b99fd61a7f6d2f63164331bd1fbf9",
-        "url": "https://github.com/makerdao/dss-deploy"
-      }
-    },
     "dss-flash_4d4b984": {
       "deps": {
         "ds-test": "ds-test_0a5da56",
@@ -573,7 +557,7 @@
         "url": "https://github.com/makerdao/vote-proxy"
       }
     },
-    "dss_1ff392d": {
+    "dss_3087ef7": {
       "deps": {
         "ds-test": "ds-test_0a5da56",
         "ds-token": "ds-token_a5e709b",
@@ -581,9 +565,9 @@
       },
       "name": "dss",
       "repo": {
-        "name": "dss-1ff392d",
+        "name": "dss-3087ef7",
         "ref": "HEAD",
-        "rev": "1ff392dcb5edb02c9518d6a5f4a365bbe4036e9a",
+        "rev": "3087ef777d664f6779c9c344978952bef36d66ad",
         "url": "https://github.com/gsu-protocol/dss"
       }
     },
@@ -592,7 +576,7 @@
         "ds-auth": "ds-auth_a51e7ca",
         "ds-pause": "ds-pause_5e798dd",
         "ds-test": "ds-test_0a5da56",
-        "dss": "dss_1ff392d",
+        "dss": "dss_3087ef7",
         "esm": "esm_225ddf2"
       },
       "name": "dss-deploy",
