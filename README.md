@@ -90,6 +90,7 @@ Below is the expected structure of such a config file:
   "flop_tau": "<Max auction duration in seconds>",
   "flap_lid": "<Max amount of DAI that can be put up for sale at the same time in DAI unit (e.g. 1000000)>",
   "flash_max": "<Max DAI can be borrowed from flash loan module in DAI unit (e.g. 1000000)>",
+  "gov_threshold": "<lock enough MKR in MCD_ADM (e.g. 80,000)>",
   "import": {
     "gov": "<GOV token address (if there is an existing one to import)> note: make sure to mint enough tokens for launch",
     "authority": "<Authority address (if there is an existing one to import)> note: make sure to launch MCD_ADMIN",
@@ -116,6 +117,7 @@ Below is the expected structure of such a config file:
         "osmDelay": "<Time in seconds for the OSM delay>",
         "type": "<median|value>",
         "price": "<Initial oracle price (only if type == "value")>",
+        "quorum": "<quorum for median price signing(only if type == "median")>",
         "signers": [
             <Set of signer addreeses (only if type == "median")>
         ]

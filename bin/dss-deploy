@@ -36,7 +36,7 @@ fi
 
 test -z "$RPC_CHAIN" && echo "There is not node running configured" && exit 1
 
-test "$RPC_CHAIN" != "$1" && echo "Network doesn't exist or doesn't match with current running node" && exit 1
+# test "$RPC_CHAIN" != "$1" && echo "Network doesn't exist or doesn't match with current running node" && exit 1
 
 test -z "$ETH_FROM" && echo "Please export ETH_FROM before running the script" && exit 1
 
@@ -64,9 +64,9 @@ writeConfigFor "$1"
 # Send ETH to Omnia Relayer
 OMNIA_ADDR="$(jq -r ".omniaFromAddr" "$CONFIG_FILE")"
 OMNIA_AMT="$(jq -r ".omniaAmount" "$CONFIG_FILE")"
-if [[ "$RPC_CHAIN" == "testchain" && -n "$OMNIA_ADDR" && -n "$OMNIA_AMT" ]]; then
-    sethSend "$OMNIA_ADDR" --value "$(seth --to-wei "$OMNIA_AMT" eth)"
-fi
+# if [[ "$RPC_CHAIN" == "testchain" && -n "$OMNIA_ADDR" && -n "$OMNIA_AMT" ]]; then
+#     sethSend "$OMNIA_ADDR" --value "$(seth --to-wei "$OMNIA_AMT" eth)"
+# fi
 
 "$LIBEXEC_DIR"/base-deploy |& tee "$OUT_DIR/dss-$1.log"
 

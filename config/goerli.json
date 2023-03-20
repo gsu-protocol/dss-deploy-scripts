@@ -10,11 +10,11 @@
   "cat_box": "20000000",
   "dog_hole": "100000000",
   "jug_base": "0",
-  "pot_dsr": "0",
+  "pot_dsr": "0.01",
   "cure_wait": "0",
   "end_wait": "262800",
   "esm_min": "100000",
-  "flap_beg": "2",
+  "flap_beg": "4",
   "flap_ttl": "1800",
   "flap_tau": "259200",
   "flap_lid": "150000",
@@ -22,24 +22,24 @@
   "flop_pad": "20",
   "flop_ttl": "21600",
   "flop_tau": "259200",
-  "flash_max": "1",
+  "flash_max": "500000000",
+  "gov_threshold": "80000",
   "tokens": {
     "ETH": {
-      "import": {
-        "gem": "0xDE831a93F9958420f116B789be31A4956E602BeA"
+      "gemDeploy": {
+        "src": "ds-weth/WETH9_",
+        "params": [],
+        "faucetSupply": "0",
+        "faucetAmount": "0"
       },
       "joinDeploy": {
         "src": "GemJoin",
         "extraParams": []
       },
       "pipDeploy": {
-        "osmDelay": "900",
-        "type": "median",
-        "signers": [
-          "0x125fC0CcCDee5ac474062F6358d4d056b0430b84",
-          "0x37c273044A6ef7c9D09670C8246c49FF4CfD2511",
-          "0x34050B9d0630594214008e3a2af07107B71831fd"
-        ]
+        "osmDelay": "0",
+        "type": "value",
+        "price": "1000"
       },
       "ilks": {
         "A": {
@@ -117,21 +117,22 @@
       }
     },
     "WBTC": {
-      "import": {
-        "gem": "0x821CA6A609AbefF51a2EC00bCB7ee827AbFf812E"
+      "gemDeploy": {
+        "src": "dss-gem-joins/WBTC",
+        "params": [
+          "100000000000000"
+        ],
+        "faucetSupply": "99000000000000",
+        "faucetAmount": "100000000"
       },
       "joinDeploy": {
         "src": "GemJoin5",
         "extraParams": []
       },
       "pipDeploy": {
-        "osmDelay": "1800",
-        "type": "median",
-        "signers": [
-          "0x125fC0CcCDee5ac474062F6358d4d056b0430b84",
-          "0x37c273044A6ef7c9D09670C8246c49FF4CfD2511",
-          "0x34050B9d0630594214008e3a2af07107B71831fd"
-        ]
+        "osmDelay": "0",
+        "type": "value",
+        "price": "10000"
       },
       "ilks": {
         "A": {

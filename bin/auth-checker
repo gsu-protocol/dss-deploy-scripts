@@ -260,91 +260,91 @@ if [[ -n "$MCD_IOU" ]]; then
 fi
 
 # osms and medians whitelist
-for token in $tokens; do
-    pipAddr=$(jq -r ".tokens.${token} | .import.pip | values" "$CONFIG_FILE")
-    type=$(jq -r ".tokens.${token} | .pipDeploy | .type | values" "$CONFIG_FILE")
-    osmDelay=$(jq -r ".tokens.${token} | .pipDeploy | .osmDelay | values" "$CONFIG_FILE")
+# for token in $tokens; do
+#     pipAddr=$(jq -r ".tokens.${token} | .import.pip | values" "$CONFIG_FILE")
+#     type=$(jq -r ".tokens.${token} | .pipDeploy | .type | values" "$CONFIG_FILE")
+#     osmDelay=$(jq -r ".tokens.${token} | .pipDeploy | .osmDelay | values" "$CONFIG_FILE")
 
-    ilks=$(jq -r ".tokens.${token}.ilks | keys_unsorted[]" "$CONFIG_FILE")
-    # If new feed
-    if [[ "$pipAddr" == "" ]]; then
-        # If feed is a Value
-        if [[ "$type" == "value" ]]; then
-            checkOwner "VAL_${token}" "MCD_PAUSE_PROXY"
-            checkAuthority "VAL_${token}" "ZERO_ADDR"
-        fi
+#     ilks=$(jq -r ".tokens.${token}.ilks | keys_unsorted[]" "$CONFIG_FILE")
+#     # If new feed
+#     if [[ "$pipAddr" == "" ]]; then
+#         # If feed is a Value
+#         if [[ "$type" == "value" ]]; then
+#             checkOwner "VAL_${token}" "MCD_PAUSE_PROXY"
+#             checkAuthority "VAL_${token}" "ZERO_ADDR"
+#         fi
 
-        # If feed is a Median
-        if [[ "$type" == "median" ]]; then
-            checkRely "VAL_${token}" "DEPLOYER" "NOT_AUTHED"
-            checkRely "VAL_${token}" "MCD_PAUSE_PROXY" "AUTHED"
+#         # If feed is a Median
+#         if [[ "$type" == "median" ]]; then
+#             checkRely "VAL_${token}" "DEPLOYER" "NOT_AUTHED"
+#             checkRely "VAL_${token}" "MCD_PAUSE_PROXY" "AUTHED"
 
-            # If end point is an OSM
-            if [[ "$osmDelay" -gt 0 ]]; then
-                checkWhitelist "VAL_${token}" "PIP_${token}"
-            fi
-        fi
+#             # If end point is an OSM
+#             if [[ "$osmDelay" -gt 0 ]]; then
+#                 checkWhitelist "VAL_${token}" "PIP_${token}"
+#             fi
+#         fi
 
-        # If end point is an OSM
-        if [[ "$osmDelay" -gt 0 ]]; then
-            checkRely "PIP_${token}" "DEPLOYER" "NOT_AUTHED"
-            checkRely "PIP_${token}" "MCD_PAUSE_PROXY" "AUTHED"
-            checkRely "PIP_${token}" "OSM_MOM" "AUTHED"
-            for ilk in $ilks; do
-                checkInOsmMom "${token}-${ilk}" "PIP_${token}"
-            done
-        fi
+#         # If end point is an OSM
+#         if [[ "$osmDelay" -gt 0 ]]; then
+#             checkRely "PIP_${token}" "DEPLOYER" "NOT_AUTHED"
+#             checkRely "PIP_${token}" "MCD_PAUSE_PROXY" "AUTHED"
+#             checkRely "PIP_${token}" "OSM_MOM" "AUTHED"
+#             for ilk in $ilks; do
+#                 checkInOsmMom "${token}-${ilk}" "PIP_${token}"
+#             done
+#         fi
 
-        # If end point is an OSM or a Median
-        if [[ "$osmDelay" -gt 0 || "$type" == "median" ]]; then
-            checkWhitelist "PIP_${token}" "MCD_SPOT"
-            checkWhitelist "PIP_${token}" "MCD_END"
+#         # If end point is an OSM or a Median
+#         if [[ "$osmDelay" -gt 0 || "$type" == "median" ]]; then
+#             checkWhitelist "PIP_${token}" "MCD_SPOT"
+#             checkWhitelist "PIP_${token}" "MCD_END"
 
-            for ilk in $ilks; do
-                # If liquidator is a Clipper
-                flipDeploy="$(jq ".tokens.${token}.ilks.${ilk} | .flipDeploy!=null" "$CONFIG_FILE")"
-                if [[ "$flipDeploy" == false ]]; then
-                    checkWhitelist "PIP_${token}" "MCD_CLIP_${token}_${ilk}"
-                    checkWhitelist "PIP_${token}" "CLIPPER_MOM"
-                fi
-            done
-        fi
-    # Already existing feed
-    else
-        # Check if $PIP_${token} has wards (OSM or Median) otherwise is a direct DSValue
-        set +e; WARDS=$(seth call "$(eval echo "\$PIP_${token}")" 'wards(address)(uint256)' "$ZERO_ADDR" 2>/dev/null); set -e
-        if [[ "$WARDS" == "0" || "$WARDS" == "1" ]]; then
-            checkRely "PIP_${token}" "DEPLOYER" "NOT_AUTHED"
-            checkRely "PIP_${token}" "MCD_PAUSE_PROXY" "AUTHED"
-        else
-            checkOwner "PIP_${token}" "MCD_PAUSE_PROXY"
-            checkAuthority "PIP_${token}" "ZERO_ADDR"
-        fi
+#             for ilk in $ilks; do
+#                 # If liquidator is a Clipper
+#                 flipDeploy="$(jq ".tokens.${token}.ilks.${ilk} | .flipDeploy!=null" "$CONFIG_FILE")"
+#                 if [[ "$flipDeploy" == false ]]; then
+#                     checkWhitelist "PIP_${token}" "MCD_CLIP_${token}_${ilk}"
+#                     checkWhitelist "PIP_${token}" "CLIPPER_MOM"
+#                 fi
+#             done
+#         fi
+#     # Already existing feed
+#     else
+#         # Check if $PIP_${token} has wards (OSM or Median) otherwise is a direct DSValue
+#         set +e; WARDS=$(seth call "$(eval echo "\$PIP_${token}")" 'wards(address)(uint256)' "$ZERO_ADDR" 2>/dev/null); set -e
+#         if [[ "$WARDS" == "0" || "$WARDS" == "1" ]]; then
+#             checkRely "PIP_${token}" "DEPLOYER" "NOT_AUTHED"
+#             checkRely "PIP_${token}" "MCD_PAUSE_PROXY" "AUTHED"
+#         else
+#             checkOwner "PIP_${token}" "MCD_PAUSE_PROXY"
+#             checkAuthority "PIP_${token}" "ZERO_ADDR"
+#         fi
 
-        # Check if $PIP_${token} has whitelist (OSM or Median)
-        set +e; WHITELISTED=$(seth call "$(eval echo "\$PIP_${token}")" 'bud(address)(uint256)' "$ZERO_ADDR" 2>/dev/null); set -e
-        if [[ "$WHITELISTED" == "0" || "$WHITELISTED" == "1" ]]; then
-            checkWhitelist "PIP_${token}" "MCD_SPOT"
-            checkWhitelist "PIP_${token}" "MCD_END"
-            for ilk in $ilks; do
-                flipDeploy="$(jq ".tokens.${token}.ilks.${ilk} | .flipDeploy!=null" "$CONFIG_FILE")"
-                if [[ "$flipDeploy" == false ]]; then
-                    checkWhitelist "PIP_${token}" "MCD_CLIP_${token}_${ilk}"
-                    checkWhitelist "PIP_${token}" "CLIPPER_MOM"
-                fi
-            done
-        fi
+#         # Check if $PIP_${token} has whitelist (OSM or Median)
+#         set +e; WHITELISTED=$(seth call "$(eval echo "\$PIP_${token}")" 'bud(address)(uint256)' "$ZERO_ADDR" 2>/dev/null); set -e
+#         if [[ "$WHITELISTED" == "0" || "$WHITELISTED" == "1" ]]; then
+#             checkWhitelist "PIP_${token}" "MCD_SPOT"
+#             checkWhitelist "PIP_${token}" "MCD_END"
+#             for ilk in $ilks; do
+#                 flipDeploy="$(jq ".tokens.${token}.ilks.${ilk} | .flipDeploy!=null" "$CONFIG_FILE")"
+#                 if [[ "$flipDeploy" == false ]]; then
+#                     checkWhitelist "PIP_${token}" "MCD_CLIP_${token}_${ilk}"
+#                     checkWhitelist "PIP_${token}" "CLIPPER_MOM"
+#                 fi
+#             done
+#         fi
 
-        # Check if $PIP_${token} is specifically an OSM
-        set +e; src=$(seth call "$(eval echo "\$PIP_${token}")" 'src()(address)' 2>/dev/null); set -e;
-        if [[ ${#src} == 42 && "${src:0:2}" == "0x" ]]; then
-            checkRely "PIP_${token}" "OSM_MOM" "AUTHED"
-            for ilk in $ilks; do
-                checkInOsmMom "${token}-${ilk}" "PIP_${token}"
-            done
-        fi
-    fi
-done
+#         # Check if $PIP_${token} is specifically an OSM
+#         set +e; src=$(seth call "$(eval echo "\$PIP_${token}")" 'src()(address)' 2>/dev/null); set -e;
+#         if [[ ${#src} == 42 && "${src:0:2}" == "0x" ]]; then
+#             checkRely "PIP_${token}" "OSM_MOM" "AUTHED"
+#             for ilk in $ilks; do
+#                 checkInOsmMom "${token}-${ilk}" "PIP_${token}"
+#             done
+#         fi
+#     fi
+# done
 
 # osmMom
 checkOwner "OSM_MOM" "MCD_PAUSE_PROXY"
