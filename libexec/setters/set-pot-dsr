@@ -29,6 +29,7 @@ log "SET POT DSR:"
 dsr=$(jq -r ".pot_dsr | values" "$CONFIG_FILE")
 if [[ "$dsr" != "" ]]; then
     dsr=$(bc -l <<< "scale=27; e( l(${dsr} / 100 + 1)/(60 * 60 * 24 * 365)) * 10^27")
+    dsr=$(bc -l <<< "${dsr} - 10^27") # Fix to set DSR to 0.
     dsr=$(seth --to-uint256 "${dsr%.*}")
     calldata="$(seth calldata 'dripAndFile(address,address,address,bytes32,uint256)' "$MCD_PAUSE" "$MCD_GOV_ACTIONS" "$MCD_POT" "$(seth --to-bytes32 "$(seth --from-ascii "dsr")")" "$dsr")"
     sethSend "$PROXY_DEPLOYER" 'execute(address,bytes memory)' "$PROXY_PAUSE_ACTIONS" "$calldata"
