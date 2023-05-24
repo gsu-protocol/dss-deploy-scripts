@@ -25,12 +25,12 @@
   "flash_max": "0",
   "gov_threshold": "70000000",
   "import": {
-    "gov": "0x8E6d9ff834DAbC98230b8dB9d8D4Bd0106E6818B"
+    "gov": "0xb5D38B20411F2336e6772229359A4af528499b9b"
   },
   "tokens": {
     "ETH": {
       "import": {
-        "gem": "0xb19aa7DadBBF9E594e28428cb61014632e12D088"
+        "gem": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
       },
       "joinDeploy": {
         "src": "GemJoin",
@@ -41,9 +41,11 @@
         "type": "median",
         "quorum": 3,
         "signers": [
-          "0x125fC0CcCDee5ac474062F6358d4d056b0430b84",
-          "0x37c273044A6ef7c9D09670C8246c49FF4CfD2511",
-          "0x34050B9d0630594214008e3a2af07107B71831fd"
+          "0x7183f1C7BaF2cdf56e821A12C49ef9B276560c9A",
+          "0x86B5B8Fe2B467F733c0624e13b9Df08867d94B96",
+          "0x354d4E6e258dE2e0136e2e3780b0CdF9560155Ec",
+          "0x9c4B23734ebE05DD834157620F9E6215ae382223",
+          "0xB5A97E6269e400fE18aC7423aF46bBA1165c1E1f"
         ]
       },
       "ilks": {
@@ -99,7 +101,7 @@
     },
     "WBTC": {
       "import": {
-        "gem": "0x30a444Cbf13383994e2Af826e45F0112c83257a1"
+        "gem": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
       },
       "joinDeploy": {
         "src": "GemJoin5",
@@ -110,9 +112,11 @@
         "type": "median",
         "quorum": 3,
         "signers": [
-          "0x125fC0CcCDee5ac474062F6358d4d056b0430b84",
-          "0x37c273044A6ef7c9D09670C8246c49FF4CfD2511",
-          "0x34050B9d0630594214008e3a2af07107B71831fd"
+          "0x7183f1C7BaF2cdf56e821A12C49ef9B276560c9A",
+          "0x86B5B8Fe2B467F733c0624e13b9Df08867d94B96",
+          "0x354d4E6e258dE2e0136e2e3780b0CdF9560155Ec",
+          "0x9c4B23734ebE05DD834157620F9E6215ae382223",
+          "0xB5A97E6269e400fE18aC7423aF46bBA1165c1E1f"
         ]
       },
       "ilks": {
@@ -168,20 +172,22 @@
     },
     "USDT": {
       "import": {
-        "gem": "0x5323718accfB5657D2Ca67feA49f204Bb49bd624"
+        "gem": "0xdAC17F958D2ee523a2206206994597C13D831ec7"
       },
       "joinDeploy": {
         "src": "GemJoin7",
         "extraParams": []
       },
       "pipDeploy": {
-        "osmDelay": "3600",
+        "osmDelay": "86400",
         "type": "median",
         "quorum": 3,
         "signers": [
-          "0x125fC0CcCDee5ac474062F6358d4d056b0430b84",
-          "0x37c273044A6ef7c9D09670C8246c49FF4CfD2511",
-          "0x34050B9d0630594214008e3a2af07107B71831fd"
+          "0x7183f1C7BaF2cdf56e821A12C49ef9B276560c9A",
+          "0x86B5B8Fe2B467F733c0624e13b9Df08867d94B96",
+          "0x354d4E6e258dE2e0136e2e3780b0CdF9560155Ec",
+          "0x9c4B23734ebE05DD834157620F9E6215ae382223",
+          "0xB5A97E6269e400fE18aC7423aF46bBA1165c1E1f"
         ]
       },
       "ilks": {
