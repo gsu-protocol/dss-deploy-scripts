@@ -33,12 +33,12 @@ export CHANGELOG
 # Deploy Values or Medians
 tokens=$(jq -r ".tokens | keys_unsorted[]" "$CONFIG_FILE")
 for token in $tokens; do
-    pipAddr=$(jq -r ".tokens.${token} | .import.pip | values" "$CONFIG_FILE")
+    pipAddr=$(jq -r ".tokens.${token} | .import.val | values" "$CONFIG_FILE")
     if [[ "$pipAddr" == "" ]]; then
         type=$(jq -r ".tokens.${token} | .pipDeploy | .type | values" "$CONFIG_FILE")
         # Deploy Medianizer as Feed
         if [[ "$type" == "median" ]]; then
-            contract=$(dappCreate testchain-medians "Median${token}USD")
+            contract=$(dappCreate testchain-medians "Median${token}GSU")
             eval "export VAL_${token}=${contract}"
             logAddr "VAL_${token}" "$(eval "echo ${contract}")"
             signers=$(jq -r ".tokens.${token} | .pipDeploy | .signers | .[]" "$CONFIG_FILE")
@@ -62,7 +62,7 @@ for token in $tokens; do
         eval "export VAL_${token}=${pipAddr}"
         copy osm
         copy testchain-medians
-        logAddr "VAL_${token}" "$pipAddr"
+        # logAddr "VAL_${token}" "$pipAddr"
     fi
     eval "export PIP_${token}=\$VAL_${token}"
 done
