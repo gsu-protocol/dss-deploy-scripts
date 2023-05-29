@@ -20,6 +20,8 @@ set -eo pipefail
 
 DAPP_LIB=${DAPP_LIB:-$BIN_DIR/contracts}
 
+echo $BIN_DIR
+echo $DAPP_LIB
 export NONCE_TMP_FILE
 clean() {
     test -f "$NONCE_TMP_FILE" && rm "$NONCE_TMP_FILE"
@@ -104,6 +106,7 @@ copy() {
 # shellcheck disable=SC2001
 dapp0_31_1="$(echo "$PATH" | sed 's/.*\:\(.*\)dapp-0.31.1\(.*\)/\1/')dapp-0.31.1/bin/dapp"
 export dapp0_31_1
+echo $dapp0_31_1
 
 dappCreate() {
     set -e

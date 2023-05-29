@@ -33,12 +33,12 @@ export CHANGELOG
 # Deploy Values or Medians
 tokens=$(jq -r ".tokens | keys_unsorted[]" "$CONFIG_FILE")
 for token in $tokens; do
-    pipAddr=$(jq -r ".tokens.${token} | .import.pip | values" "$CONFIG_FILE")
+    pipAddr=$(jq -r ".tokens.${token} | .import.val | values" "$CONFIG_FILE")
     if [[ "$pipAddr" == "" ]]; then
         type=$(jq -r ".tokens.${token} | .pipDeploy | .type | values" "$CONFIG_FILE")
         # Deploy Medianizer as Feed
         if [[ "$type" == "median" ]]; then
-            contract=$(dappCreate testchain-medians "Median${token}USD")
+            contract=$(dappCreate testchain-medians "Median${token}GSU")
             eval "export VAL_${token}=${contract}"
             logAddr "VAL_${token}" "$(eval "echo ${contract}")"
             signers=$(jq -r ".tokens.${token} | .pipDeploy | .signers | .[]" "$CONFIG_FILE")
@@ -49,7 +49,8 @@ for token in $tokens; do
             done
             sethSend "$(eval echo "\$VAL_${token}")" 'lift(address[] memory)' "[$(join "${allsigners[@]}")]"
             # Set quorum for Medianizer
-            sethSend "$(eval echo "\$VAL_${token}")" 'setBar(uint256)' "$(seth --to-uint256 3)"
+            quorum=$(jq -r ".tokens.${token} | .pipDeploy | .quorum" "$CONFIG_FILE")
+            sethSend "$(eval echo "\$VAL_${token}")" 'setBar(uint256)' "$(seth --to-uint256 "$quorum")"
         fi
         # Deploy DSValue as Feed
         if [[ "${type}" == "value" ]]; then
@@ -61,7 +62,7 @@ for token in $tokens; do
         eval "export VAL_${token}=${pipAddr}"
         copy osm
         copy testchain-medians
-        logAddr "VAL_${token}" "$pipAddr"
+        # logAddr "VAL_${token}" "$pipAddr"
     fi
     eval "export PIP_${token}=\$VAL_${token}"
 done
@@ -130,6 +131,27 @@ if [[ "$newGovToken" == true ]]; then
     sethSend "$MCD_GOV" 'mint(address,uint256)' "$ETH_FROM" "$(seth --to-uint256 "$(seth --to-wei 1000000 ETH)")"
     # sethSend "$FAUCET" 'gulp(address)' "$MCD_GOV"
 
+    # Use custom authority for the new GOV token
+    GOV_GUARD=$(dappCreate mkr-authority MkrAuthority)
+    logAddr "GOV_GUARD" "$GOV_GUARD"
+
+    # Set GOV_GUARD as authority of MCD_GOV
+    sethSend "$MCD_GOV" 'setAuthority(address)' "$GOV_GUARD"
+
+    # Set ownership to MCD_PAUSE_PROXY
+    sethSend "$MCD_GOV" 'setOwner(address)' "$MCD_PAUSE_PROXY"
+
+    # Allow Flop to mint Gov token
+    sethSend "$GOV_GUARD" 'rely(address)' "$MCD_FLOP"
+
+    # Set root to MCD_PAUSE_PROXY
+    sethSend "$GOV_GUARD" 'setRoot(address)' "$MCD_PAUSE_PROXY"
+fi
+
+# GSU
+# Deploy MkrAuthority as custom authority if there isn't an authority in the config file
+MCD_ADM_2=$(jq -r ".import.authority | values" "$CONFIG_FILE")
+if [[ -z "$MCD_ADM_2" ]]; then
     # Use custom authority for the new GOV token
     GOV_GUARD=$(dappCreate mkr-authority MkrAuthority)
     logAddr "GOV_GUARD" "$GOV_GUARD"
@@ -227,6 +249,7 @@ sethSend "$MCD_ADM" 'setRootUser(address,bool)' "$PROXY_DEPLOYER" true
 
 # Deploy chief as new $MCD_ADM if there isn't an authority in the config file
 MCD_ADM=$(jq -r ".import.authority | values" "$CONFIG_FILE")
+gov_threshold=$(jq -r ".gov_threshold | values" "$CONFIG_FILE")
 if [[ -z "$MCD_ADM" ]]; then
     MCD_IOU=$(dappCreate ds-token DSToken '"IOU"')
     logAddr "MCD_IOU" "$MCD_IOU"
@@ -236,8 +259,8 @@ if [[ -z "$MCD_ADM" ]]; then
     sethSend "$MCD_IOU" 'setOwner(address)' "${MCD_ADM}"
 
     # lock enough MKR (80,000 MKR threshold)
-    sethSend "$MCD_GOV" "approve(address,uint256)" "$MCD_ADM" "$(seth --to-uint256 "$(seth --to-wei 80000 ETH)")"
-    sethSend "$MCD_ADM" "lock(uint256)" "$(seth --to-uint256 "$(seth --to-wei 80000 ETH)")"
+    sethSend "$MCD_GOV" "approve(address,uint256)" "$MCD_ADM" "$(seth --to-uint256 "$(seth --to-wei "$gov_threshold" ETH)")"
+    sethSend "$MCD_ADM" "lock(uint256)" "$(seth --to-uint256 "$(seth --to-wei "$gov_threshold" ETH)")"
     sethSend "$MCD_ADM" "vote(address[])" "[0x0000000000000000000000000000000000000000]"
     sethSend "$MCD_ADM" "launch()"
 
@@ -336,10 +359,11 @@ MCD_VEST_MKR=$(dappCreate dss-vest-1_0_1-optimized DssVestMintable "$MCD_GOV")
 logAddr "MCD_VEST_MKR" "$MCD_VEST_MKR"
 sethSend "$MCD_VEST_MKR" 'rely(address)' "$MCD_PAUSE_PROXY"
 sethSend "$MCD_VEST_MKR" 'deny(address)' "$ETH_FROM"
-if [[ "$newGovToken" == true ]]; then
-    calldata="$(seth calldata 'rely(address,address,address,address)' "$MCD_PAUSE" "$MCD_GOV_ACTIONS" "$GOV_GUARD" "$MCD_VEST_MKR")"
-    sethSend "$PROXY_DEPLOYER" 'execute(address,bytes memory)' "$PROXY_PAUSE_ACTIONS" "$calldata"
-fi
+# GSU in case of import MCD_GOV this should also execute. 
+# if [[ "$newGovToken" == true ]]; then
+calldata="$(seth calldata 'rely(address,address,address,address)' "$MCD_PAUSE" "$MCD_GOV_ACTIONS" "$GOV_GUARD" "$MCD_VEST_MKR")"
+sethSend "$PROXY_DEPLOYER" 'execute(address,bytes memory)' "$PROXY_PAUSE_ACTIONS" "$calldata"
+# fi
 MCD_VEST_MKR_TREASURY=$(dappCreate dss-vest-1_0_1-optimized DssVestTransferrable "$MCD_PAUSE_PROXY" "$MCD_GOV")
 sethSend "$MCD_VEST_MKR_TREASURY" 'rely(address)' "$MCD_PAUSE_PROXY"
 sethSend "$MCD_VEST_MKR_TREASURY" 'deny(address)' "$ETH_FROM"
@@ -393,7 +417,8 @@ cat > "$OUT_DIR"/addresses.json <<EOF
     "PROXY_FACTORY": "$(seth --to-checksum-address "$PROXY_FACTORY")",
     "PROXY_REGISTRY": "$(seth --to-checksum-address "$PROXY_REGISTRY")"$ILKS_VARS,
     "PROXY_PAUSE_ACTIONS": "$PROXY_PAUSE_ACTIONS",
-    "PROXY_DEPLOYER": "$(seth --to-checksum-address "$PROXY_DEPLOYER")"
+    "PROXY_DEPLOYER": "$(seth --to-checksum-address "$PROXY_DEPLOYER")",
+    "MCD_POLLING_EMITTER": "$(seth --to-checksum-address "$MCD_POLLING_EMITTER")"
 }
 EOF
 
