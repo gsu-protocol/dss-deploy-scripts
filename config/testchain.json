@@ -40,6 +40,7 @@
       "pipDeploy": {
         "osmDelay": "600",
         "type": "median",
+        "quorum": 3,
         "signers": [
           "0x9b996C0EC8f19b4Cc9D8e00EdB79Bf2456d7EA03",
           "0xd8F05998F94347330d8e5Bc2C5488428f50591a3",
