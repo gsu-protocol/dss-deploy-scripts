@@ -506,16 +506,16 @@
         "url": "https://github.com/makerdao/symbolic-voting"
       }
     },
-    "testchain-medians_e962ba4": {
+    "testchain-medians_b72a6f4": {
       "deps": {
         "ds-test": "ds-test_0a5da56",
         "median": "median_0316acd"
       },
       "name": "testchain-medians",
       "repo": {
-        "name": "testchain-medians-e842e4f",
+        "name": "testchain-medians-b72a6f4",
         "ref": "HEAD",
-        "rev": "e962ba4639c52a055eef035442a97f54ec66c89a",
+        "rev": "b72a6f44f54ba075ee7bbcb3846d2cc438b2ed7d",
         "url": "https://github.com/block360/testchain-medians"
       }
     },
@@ -617,7 +617,7 @@
       "osm-mom": "osm-mom_820324a",
       "proxy-registry": "proxy-registry_981715a",
       "symbolic-voting": "symbolic-voting_5f9c56f",
-      "testchain-medians": "testchain-medians_e962ba4",
+      "testchain-medians": "testchain-medians_b72a6f4",
       "token-faucet": "token-faucet_2d9189c",
       "vote-delegate": "vote-delegate_c2345b7",
       "vote-proxy": "vote-proxy_67067a1"
