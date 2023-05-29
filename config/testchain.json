@@ -1,7 +1,7 @@
 {
-  "description": "Testchain Deployment",
-  "omniaFromAddr": "0xdc9A20F5a46AFE0802b361076BeFC51f787B2e58",
-  "omniaAmount": "1",
+  "description": "Testchain deployment",
+  "omniaFromAddr": "0x04a8c85778aCCacE0B2B053B246eAC7062F03615",
+  "omniaAmount": "10000",
   "pauseDelay": "60",
   "vat_line": "5000000",
   "vow_wait": "561600",
@@ -12,7 +12,7 @@
   "cat_box": "20000000",
   "dog_hole": "100000000",
   "jug_base": "0",
-  "pot_dsr": "0.01",
+  "pot_dsr": "0.00",
   "cure_wait": "0",
   "end_wait": "262800",
   "esm_min": "100000",
@@ -38,9 +38,14 @@
         "extraParams": []
       },
       "pipDeploy": {
-        "osmDelay": "0",
-        "type": "value",
-        "price": "1000"
+        "osmDelay": "600",
+        "type": "median",
+        "quorum": 3,
+        "signers": [
+          "0x9b996C0EC8f19b4Cc9D8e00EdB79Bf2456d7EA03",
+          "0xd8F05998F94347330d8e5Bc2C5488428f50591a3",
+          "0xD33bf7c2983f51dBC4abbF21850fA76d652329C8"
+        ]
       },
       "ilks": {
         "A": {
@@ -106,99 +111,6 @@
             "tip": "300",
             "buf": "130",
             "tail": "8400",
-            "cusp": "40",
-            "calc": {
-              "type": "StairstepExponentialDecrease",
-              "step": "90",
-              "cut": "99"
-            },
-            "cm_tolerance": "50"
-          }
-        }
-      }
-    },
-    "WBTC": {
-      "gemDeploy": {
-        "src": "dss-gem-joins/WBTC",
-        "params": [
-          "100000000000000"
-        ],
-        "faucetSupply": "99000000000000",
-        "faucetAmount": "100000000"
-      },
-      "joinDeploy": {
-        "src": "GemJoin5",
-        "extraParams": []
-      },
-      "pipDeploy": {
-        "osmDelay": "0",
-        "type": "value",
-        "price": "10000"
-      },
-      "ilks": {
-        "A": {
-          "mat": "150",
-          "line": "0",
-          "autoLine": "750000000",
-          "autoLineGap": "30000000",
-          "autoLineTtl": "28800",
-          "dust": "10000",
-          "duty": "2",
-          "clipDeploy": {
-            "chop": "13",
-            "hole": "15000000",
-            "chip": "0.1",
-            "tip": "300",
-            "buf": "130",
-            "tail": "8400",
-            "cusp": "40",
-            "calc": {
-              "type": "StairstepExponentialDecrease",
-              "step": "90",
-              "cut": "99"
-            },
-            "cm_tolerance": "50"
-          }
-        },
-        "B": {
-          "mat": "130",
-          "line": "0",
-          "autoLine": "500000000",
-          "autoLineGap": "30000000",
-          "autoLineTtl": "28800",
-          "dust": "30000",
-          "duty": "7",
-          "clipDeploy": {
-            "chop": "13",
-            "hole": "25000000",
-            "chip": "0.1",
-            "tip": "300",
-            "buf": "120",
-            "tail": "5400",
-            "cusp": "40",
-            "calc": {
-              "type": "StairstepExponentialDecrease",
-              "step": "60",
-              "cut": "99"
-            },
-            "cm_tolerance": "50"
-          }
-        },
-        "C": {
-          "mat": "175",
-          "line": "0",
-          "autoLine": "1000000000",
-          "autoLineGap": "100000000",
-          "autoLineTtl": "28800",
-          "dust": "7500",
-          "duty": "1.5",
-          "clipDeploy": {
-            "chop": "13",
-            "hole": "25000000",
-            "chip": "0.1",
-            "tip": "300",
-            "buf": "120",
-            "tail": "5400",
             "cusp": "40",
             "calc": {
               "type": "StairstepExponentialDecrease",

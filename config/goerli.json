@@ -23,6 +23,7 @@
   "flop_ttl": "21600",
   "flop_tau": "259200",
   "flash_max": "500000000",
+  "gov_threshold": "80000",
   "tokens": {
     "ETH": {
       "gemDeploy": {
